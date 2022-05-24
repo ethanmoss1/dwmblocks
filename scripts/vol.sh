@@ -19,6 +19,8 @@ esac
 sound=$(amixer get Master | awk -F '[]%[]' 'END{print $5}')
 # Get current Volume
 vol=$(amixer get Master | awk -F '[]%[]' 'END{print $2}')
+iconpath="/usr/share/icons/Faba/48x48/notifications/"
+bar=$(seq -s "─" $(($vol/6)) | sed 's/[0-9]//g')
 
 # Set color and Icon based on if muted or not,
 # if its not muted then Icon is based on Volume level
@@ -28,27 +30,33 @@ then
     if [ $vol -ge 66 ]
     then
         icon="墳"
+        iconnotify="notification-audio-volume-high.svg"
     elif [ $vol -ge 33 ] && [ $vol -lt 66 ]
     then
         icon="奔"
+        iconnotify="notification-audio-volume-medium.svg"
     else
-        icon="奄" 
+        icon="奄"
+        iconnotify="notification-audio-volume-low.svg"
     fi
 else
     colour=^c\#928374^
     icon="婢"
+    iconnotify="notification-audio-volume-muted.svg"
 fi
 
 if [ $vol -ge 100 ]
 then
-    space=""
+    space=" "
 elif [ $vol -ge 10 ]
 then
-    space=" "
-else
     space="  "
+else
+    space="   "
 fi
 
-
 # Echo all it out onto status
-echo "$colour$icon $space$vol%^d^"
+#notify-send "Volume" "$vol$space     $bar" -t 2000 -i $iconpath$iconnotify -r 101
+space="                 $space"
+notify-send "Volume$space$vol" -h int:value:$vol -t 2000 -i $iconpath$iconnotify -r 101
+echo "$colour$icon ^d^"
