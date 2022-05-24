@@ -59,4 +59,4 @@ fi
 #notify-send "Volume" "$vol$space     $bar" -t 2000 -i $iconpath$iconnotify -r 101
 space="                 $space"
 notify-send "Volume$space$vol" -h int:value:$vol -t 2000 -i $iconpath$iconnotify -r 101
-echo "$colour$icon ^d^"
+echo "$colour$icon^f1^^d^"
