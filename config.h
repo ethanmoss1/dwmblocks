@@ -10,5 +10,5 @@ const Block blocks[] = {
 	BLOCK("sh ~/.config/dwmblocks/scripts/vol.sh", 0, 11),
 	BLOCK("sh ~/.config/dwmblocks/scripts/bat.sh", 3, 1),
 	BLOCK("sh ~/.config/dwmblocks/scripts/date.sh", 1, 3),
-//	BLOCK("sh ~/.config/dwmblocks/scripts/pad.sh", 0, 1),
+	BLOCK("sh ~/.config/dwmblocks/scripts/pad.sh", 0, 1),
 };

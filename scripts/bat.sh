@@ -8,6 +8,15 @@ plugged=$(cat $XDG_CONFIG_HOME/bash/plugged)
 unplugged=$(cat $XDG_CONFIG_HOME/bash/unplugged)
 path="/usr/share/icons/Faba/48x48/notifications/"
 
+# Spacing
+if [ $bat -ge 100 ]; then
+    space="                "
+elif [ $bat -ge 10 ]; then
+    space="                 "
+else
+    space="                  "
+fi
+
 # functions
 mkfile() {
     mkdir -p -- "$1" && \
@@ -18,14 +27,14 @@ mkfile() {
 send_notification () {
     if [ $bat -le 15 ] && [ $stats != "Charging" ]; then
         path+="notification-battery-low.svg"
-        notify-send "Battery $bat" "$stats" \
+        notify-send "Battery$space$bat%" "$stats" \
                 -h int:value:$bat \
                 -i $path \
                 -u critical \
                 -r 103
     else
         path+="notification-power.svg"
-        notify-send "Battery $bat" "$stats" \
+        notify-send "Battery$space$bat%" "$stats" \
                 -h int:value:$bat \
                 -i $path \
                 -r 103
@@ -52,12 +61,10 @@ if [ $stats == "Charging" ]; then
         plugged="1"
         send_notification
     fi
-    colour="^d^"
     icon=""
 else
     if [ $bat -le 15 ]; then
-        colour="^c#cc241d^"
-        icon=""
+        icon="^c#ea6962^^d^"
         unplugged="0"
         plugged="0"
         if [[ $lowbattery -eq 0 ]]; then
@@ -67,7 +74,6 @@ else
     else
         lowbattery="0"
         plugged="0"
-        colour="^d^"
         if [[ $unplugged -eq 0 ]]; then
             unplugged="1"
             send_notification
@@ -95,16 +101,7 @@ else
     fi
 fi
 
-# Spacing
-if [ $bat -ge 100 ]; then
-    space=" "
-elif [ $bat -ge 10 ]; then
-    space="  "
-else
-    space="   "
-fi
-
-echo "$colour$icon^d^"
-echo "$lowbattery" > $XDG_CONFIG_HOME/bash/lowbattery
-echo "$unplugged" > $XDG_CONFIG_HOME/bash/unplugged
-echo "$plugged" > $XDG_CONFIG_HOME/bash/plugged
+echo $icon
+echo $lowbattery > $XDG_CONFIG_HOME/bash/lowbattery
+echo $unplugged > $XDG_CONFIG_HOME/bash/unplugged
+echo $plugged > $XDG_CONFIG_HOME/bash/plugged

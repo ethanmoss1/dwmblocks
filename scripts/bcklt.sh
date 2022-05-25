@@ -35,4 +35,4 @@ notify-send "Brightness$space$level" \
         -t 2000 \
         -r 102 \
         -i $iconnotify
-echo "$icon"
+echo $icon
